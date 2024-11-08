@@ -1,6 +1,7 @@
 // GiftsScreen.js
 import React, { useState, useEffect } from "react";
 import {
+  SafeAreaView,
   View,
   Text,
   FlatList,
@@ -40,25 +41,26 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
     backgroundColor: isDarkMode ? "#000000" : "#FFFFFF",
     textColor: isDarkMode ? "#FFFFFF" : "#000000",
     buttonBackgroundColor: isDarkMode ? "#333333" : "#92DCE5",
+    buttonBorderColor: isDarkMode ? "#FFFFFF" : "#000000",
   };
 
   if (loading) {
     return (
-      <View
+      <SafeAreaView
         style={[
-          styles.loadingContainer,
+          styles.safeArea,
           { backgroundColor: themeStyles.backgroundColor },
         ]}
       >
         <ActivityIndicator size="large" color="#4EA5D9" />
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View
+    <SafeAreaView
       style={[
-        styles.container,
+        styles.safeArea,
         { backgroundColor: themeStyles.backgroundColor },
       ]}
     >
@@ -84,7 +86,10 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
             <TouchableOpacity
               style={[
                 styles.addButton,
-                { backgroundColor: themeStyles.buttonBackgroundColor },
+                {
+                  backgroundColor: themeStyles.buttonBackgroundColor,
+                  borderColor: themeStyles.buttonBorderColor,
+                },
               ]}
               onPress={() => handleAddProduct(item.title)}
             >
@@ -97,11 +102,14 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
           </View>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     padding: 10,
@@ -131,9 +139,10 @@ const styles = StyleSheet.create({
   },
   addButton: {
     marginTop: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 8,
+    borderWidth: 2,
   },
   addButtonText: {
     fontWeight: "bold",

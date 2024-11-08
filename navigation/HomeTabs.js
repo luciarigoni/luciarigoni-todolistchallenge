@@ -58,16 +58,16 @@ export default function HomeTabs() {
         options={{ title: "Início" }}
       />
       <Tab.Screen
-        name="Bored"
-        children={(props) => <BoredScreen {...props} isDarkMode={isDarkMode} />}
-        options={{ title: "Estou Entediado" }}
-      />
-      <Tab.Screen
         name="Gifts"
         children={(props) => (
           <GiftsScreen {...props} addTask={addTask} isDarkMode={isDarkMode} />
         )}
         options={{ title: "Presentes" }}
+      />
+      <Tab.Screen
+        name="Bored"
+        children={(props) => <BoredScreen {...props} isDarkMode={isDarkMode} />}
+        options={{ title: "Estou Entediado" }}
       />
     </Tab.Navigator>
   );

@@ -10,6 +10,7 @@ import {
   Switch,
   StyleSheet,
 } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function HomeScreen() {
   const [task, setTask] = useState();
@@ -49,7 +50,7 @@ export default function HomeScreen() {
       <View style={styles.tasksWrapper}>
         <View style={styles.header}>
           <Text style={[styles.sectionTitle, { color: themeStyles.color }]}>
-            Tarefas de final de ano
+            Natal Perfeito
           </Text>
           <Switch value={isDarkMode} onValueChange={toggleTheme} />
         </View>
@@ -82,7 +83,7 @@ export default function HomeScreen() {
               color: themeStyles.color,
             },
           ]}
-          placeholder="Write a task"
+          placeholder="Escreva uma tarefa"
           placeholderTextColor={isDarkMode ? "#aaaaaa" : "#555555"}
           value={task}
           onChangeText={(text) => setTask(text)}
@@ -94,7 +95,7 @@ export default function HomeScreen() {
               { backgroundColor: themeStyles.buttonBackgroundColor },
             ]}
           >
-            <Text style={{ color: themeStyles.color }}>+</Text>
+            <Ionicons name="add" size={24} color={themeStyles.color} />
           </View>
         </TouchableOpacity>
       </KeyboardAvoidingView>

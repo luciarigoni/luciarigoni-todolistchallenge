@@ -1,8 +1,8 @@
-// src/navigation/AppNavigator.js
+// AppNavigator.js
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import OnboardingScreen from "../screens/OnboardingScreen";
-import HomeScreen from "../screens/HomeScreen";
+import HomeTabs from "./HomeTabs";
 
 const Stack = createStackNavigator();
 
@@ -13,7 +13,7 @@ export default function AppNavigator() {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="Onboarding" component={OnboardingScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="HomeTabs" component={HomeTabs} />
     </Stack.Navigator>
   );
 }

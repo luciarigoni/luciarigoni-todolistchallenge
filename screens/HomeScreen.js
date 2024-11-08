@@ -14,28 +14,17 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function HomeScreen({ navigation }) {
-  const [taskItems, setTaskItems] = useState([]);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+export default function HomeScreen({
+  navigation,
+  taskItems,
+  addTask,
+  setTaskItems,
+  isDarkMode,
+  toggleTheme,
+}) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Carrega as tarefas do AsyncStorage ao montar a tela
-  useEffect(() => {
-    const loadTasks = async () => {
-      try {
-        const storedTasks = await AsyncStorage.getItem("tasks");
-        if (storedTasks) {
-          setTaskItems(JSON.parse(storedTasks));
-        }
-      } catch (error) {
-        console.error("Erro ao carregar tarefas:", error);
-      }
-    };
-
-    loadTasks();
-  }, []);
-
-  // Salva as tarefas no AsyncStorage sempre que a lista de tarefas é atualizada
+  // Save tasks to AsyncStorage when taskItems changes
   useEffect(() => {
     const saveTasks = async () => {
       try {
@@ -48,10 +37,6 @@ export default function HomeScreen({ navigation }) {
     saveTasks();
   }, [taskItems]);
 
-  const addTask = (task) => {
-    setTaskItems([...taskItems, task]);
-  };
-
   const completeTask = (index) => {
     let itemsCopy = [...taskItems];
     itemsCopy.splice(index, 1);
@@ -61,10 +46,6 @@ export default function HomeScreen({ navigation }) {
   const filteredTasks = taskItems.filter((item) =>
     item.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
 
   const themeStyles = {
     backgroundColor: isDarkMode ? "#000000" : "#FFFFFF",
@@ -87,7 +68,6 @@ export default function HomeScreen({ navigation }) {
           <Switch value={isDarkMode} onValueChange={toggleTheme} />
         </View>
 
-        {/* Campo de busca de tarefa */}
         <TextInput
           style={[
             styles.searchInput,
@@ -123,7 +103,9 @@ export default function HomeScreen({ navigation }) {
         style={styles.writeTaskWrapper}
       >
         <TouchableOpacity
-          onPress={() => navigation.navigate("AddTask", { addTask: addTask })}
+          onPress={() =>
+            navigation.navigate("AddTask", { addTask, isDarkMode })
+          }
         >
           <View style={styles.addWrapper}>
             <Ionicons name="add" size={24} color={themeStyles.color} />

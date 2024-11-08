@@ -24,7 +24,6 @@ export default function HomeScreen() {
       Keyboard.dismiss();
       setTaskItems([...taskItems, task]);
       setTask("");
-      a;
     }
   };
 
@@ -143,7 +142,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "bold",
   },
   searchInput: {

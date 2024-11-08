@@ -24,6 +24,21 @@ export default function HomeScreen({
 }) {
   const [searchQuery, setSearchQuery] = useState("");
 
+  useEffect(() => {
+    const loadTasks = async () => {
+      try {
+        const savedTasks = await AsyncStorage.getItem("tasks");
+        if (savedTasks) {
+          setTaskItems(JSON.parse(savedTasks));
+        }
+      } catch (error) {
+        console.error("Erro ao carregar tarefas:", error);
+      }
+    };
+
+    loadTasks();
+  }, []);
+
   // Save tasks to AsyncStorage when taskItems changes
   useEffect(() => {
     const saveTasks = async () => {
@@ -76,7 +91,7 @@ export default function HomeScreen({
               color: themeStyles.color,
             },
           ]}
-          placeholder="Buscar tarefas"
+          placeholder="Buscar tarefas ou presentes"
           placeholderTextColor={isDarkMode ? "#aaaaaa" : "#555555"}
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
@@ -106,6 +121,7 @@ export default function HomeScreen({
           onPress={() =>
             navigation.navigate("AddTask", { addTask, isDarkMode })
           }
+          style={styles.addButtonPosition} // Alinha o botão à direita
         >
           <View style={styles.addWrapper}>
             <Ionicons name="add" size={24} color={themeStyles.color} />
@@ -153,13 +169,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   writeTaskWrapper: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
     position: "absolute",
     bottom: 30,
-    width: "100%",
-    paddingHorizontal: 20,
+    right: 20, // Define a posição do botão à direita
+    alignItems: "flex-end",
+  },
+  addButtonPosition: {
+    alignSelf: "flex-end",
   },
   addWrapper: {
     width: 50,

@@ -13,22 +13,23 @@ export default function OnboardingScreen({ navigation }) {
       onDone={() => navigation.replace("Home")}
       pages={[
         {
-          backgroundColor: "#fff",
+          backgroundColor: "#FF90B3",
           image: <LottieAnimation source={tree} />,
-          title: "Welcome to our App!",
-          subtitle: "Discover all the features we offer!",
+          title: "Bem-vindo ao Natal Perfeito!!",
+          subtitle: "Prepare-se para organizar o melhor Natal de todos.",
         },
         {
-          backgroundColor: "#fdeb93",
+          backgroundColor: "#2274A5",
           image: <LottieAnimation source={cat} />,
-          title: "Explore More!",
-          subtitle: "Find amazing features and tools.",
+          title: "Não se esqueça de nada!",
+          subtitle:
+            "Com nosso app, você pode planejar cada detalhe das suas tarefas natalinas.",
         },
         {
-          backgroundColor: "#fdeb93",
+          backgroundColor: "#BC2C1A",
           image: <LottieAnimation source={onboarding3} />,
-          title: "Explore More!",
-          subtitle: "Find amazing features and tools.",
+          title: "Organize suas tarefas de Natal",
+          subtitle: "De presentes a preparativos – tudo em um só lugar!",
         },
       ]}
     />

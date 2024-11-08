@@ -1,3 +1,4 @@
+// AddTaskScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -15,14 +16,21 @@ export default function AddTaskScreen({ navigation, route }) {
   const handleSaveTask = () => {
     if (task.trim()) {
       Keyboard.dismiss();
-      // Chama a função passada via props para adicionar a tarefa na HomeScreen
-      route.params.addTask(task);
+      route.params.addTask(task); // Adiciona a tarefa na HomeScreen
       navigation.goBack(); // Volta para a HomeScreen após salvar a tarefa
     }
   };
 
   return (
     <View style={styles.container}>
+      {/* Botão de voltar */}
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons name="close" size={40} color="#333" />
+      </TouchableOpacity>
+
       <Text style={styles.title}>Adicionar Nova Tarefa</Text>
       <TextInput
         style={styles.input}
@@ -45,6 +53,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFFFFF",
     padding: 20,
+  },
+  backButton: {
+    position: "absolute",
+    top: 70, // Ajuste conforme necessário
+    left: 20, // Ajuste conforme necessário
   },
   title: {
     fontSize: 24,

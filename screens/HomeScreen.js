@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// HomeScreen.js
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,25 +7,49 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Keyboard,
   Switch,
   StyleSheet,
   ScrollView,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function HomeScreen() {
-  const [task, setTask] = useState("");
+export default function HomeScreen({ navigation }) {
   const [taskItems, setTaskItems] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const handleAddTask = () => {
-    if (task.trim()) {
-      Keyboard.dismiss();
-      setTaskItems([...taskItems, task]);
-      setTask("");
-    }
+  // Carrega as tarefas do AsyncStorage ao montar a tela
+  useEffect(() => {
+    const loadTasks = async () => {
+      try {
+        const storedTasks = await AsyncStorage.getItem("tasks");
+        if (storedTasks) {
+          setTaskItems(JSON.parse(storedTasks));
+        }
+      } catch (error) {
+        console.error("Erro ao carregar tarefas:", error);
+      }
+    };
+
+    loadTasks();
+  }, []);
+
+  // Salva as tarefas no AsyncStorage sempre que a lista de tarefas é atualizada
+  useEffect(() => {
+    const saveTasks = async () => {
+      try {
+        await AsyncStorage.setItem("tasks", JSON.stringify(taskItems));
+      } catch (error) {
+        console.error("Erro ao salvar tarefas:", error);
+      }
+    };
+
+    saveTasks();
+  }, [taskItems]);
+
+  const addTask = (task) => {
+    setTaskItems([...taskItems, task]);
   };
 
   const completeTask = (index) => {
@@ -45,7 +70,6 @@ export default function HomeScreen() {
     backgroundColor: isDarkMode ? "#000000" : "#FFFFFF",
     color: isDarkMode ? "#FFFFFF" : "#000000",
     inputBackgroundColor: isDarkMode ? "#333333" : "#f0f0f0",
-    buttonBackgroundColor: isDarkMode ? "#bb86fc" : "#92DCE5",
   };
 
   return (
@@ -63,6 +87,7 @@ export default function HomeScreen() {
           <Switch value={isDarkMode} onValueChange={toggleTheme} />
         </View>
 
+        {/* Campo de busca de tarefa */}
         <TextInput
           style={[
             styles.searchInput,
@@ -97,26 +122,10 @@ export default function HomeScreen() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
       >
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: themeStyles.inputBackgroundColor,
-              color: themeStyles.color,
-            },
-          ]}
-          placeholder="Escreva uma tarefa"
-          placeholderTextColor={isDarkMode ? "#aaaaaa" : "#555555"}
-          value={task}
-          onChangeText={(text) => setTask(text)}
-        />
-        <TouchableOpacity onPress={handleAddTask}>
-          <View
-            style={[
-              styles.addWrapper,
-              { backgroundColor: themeStyles.buttonBackgroundColor },
-            ]}
-          >
+        <TouchableOpacity
+          onPress={() => navigation.navigate("AddTask", { addTask: addTask })}
+        >
+          <View style={styles.addWrapper}>
             <Ionicons name="add" size={24} color={themeStyles.color} />
           </View>
         </TouchableOpacity>
@@ -170,17 +179,12 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 20,
   },
-  input: {
-    paddingVertical: 15,
-    paddingHorizontal: 15,
-    width: "75%",
-    borderRadius: 60,
-  },
   addWrapper: {
     width: 50,
     height: 50,
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#92DCE5",
   },
 });

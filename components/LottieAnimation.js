@@ -1,4 +1,3 @@
-// src/components/LottieAnimation.js
 import React from "react";
 import LottieView from "lottie-react-native";
 

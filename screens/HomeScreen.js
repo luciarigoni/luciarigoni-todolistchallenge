@@ -1,4 +1,3 @@
-// HomeScreen.js
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -39,7 +38,6 @@ export default function HomeScreen({
     loadTasks();
   }, []);
 
-  // Save tasks to AsyncStorage when taskItems changes
   useEffect(() => {
     const saveTasks = async () => {
       try {
@@ -171,7 +169,7 @@ const styles = StyleSheet.create({
   writeTaskWrapper: {
     position: "absolute",
     bottom: 30,
-    right: 20, // Define a posição do botão à direita
+    right: 20,
     alignItems: "flex-end",
   },
   addButtonPosition: {

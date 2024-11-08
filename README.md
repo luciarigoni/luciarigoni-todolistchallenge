@@ -2,6 +2,12 @@
 
 Este projeto é um aplicativo de lista de tarefas desenvolvido com Expo e React Native. Ele possui funcionalidades como armazenamento assíncrono de tarefas, temas claro e escuro, animações com Lottie, navegação entre telas, e integração com uma API externa para sugestão de itens. 
 
+
+
+https://github.com/user-attachments/assets/791730b7-be31-4885-a043-4ea52cc6856a
+
+
+
 ## Tecnologias Utilizadas
 
 - **Expo**: Framework utilizado para facilitar o desenvolvimento de aplicações React Native.

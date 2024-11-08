@@ -1,6 +1,7 @@
 # To-Do List App
 
 Este projeto é um aplicativo de lista de tarefas desenvolvido com Expo e React Native. Ele possui funcionalidades como armazenamento assíncrono de tarefas, temas claro e escuro, animações com Lottie, navegação entre telas, e integração com uma API externa para sugestão de itens. 
+Confira o design do aplicativo no Figma: [Figma - Todo List](https://www.figma.com/design/xs0rEdaNn93gzsseOq2vXq/Todo-List?node-id=1-2&node-type=frame&t=A9zOcXevT7f7lUkL-0)
 
 
 

@@ -9,18 +9,22 @@ import {
   Keyboard,
   Switch,
   StyleSheet,
+  ScrollView,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function HomeScreen() {
-  const [task, setTask] = useState();
+  const [task, setTask] = useState("");
   const [taskItems, setTaskItems] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleAddTask = () => {
-    Keyboard.dismiss();
-    setTaskItems([...taskItems, task]);
-    setTask(null);
+    if (task.trim()) {
+      Keyboard.dismiss();
+      setTaskItems([...taskItems, task]);
+      setTask("");
+    }
   };
 
   const completeTask = (index) => {
@@ -28,6 +32,10 @@ export default function HomeScreen() {
     itemsCopy.splice(index, 1);
     setTaskItems(itemsCopy);
   };
+
+  const filteredTasks = taskItems.filter((item) =>
+    item.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
@@ -54,23 +62,37 @@ export default function HomeScreen() {
           </Text>
           <Switch value={isDarkMode} onValueChange={toggleTheme} />
         </View>
-        <View style={styles.items}>
-          {taskItems.map((item, index) => {
-            return (
-              <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-                <View
-                  style={[
-                    styles.task,
-                    { backgroundColor: themeStyles.inputBackgroundColor },
-                  ]}
-                >
-                  <Text style={{ color: themeStyles.color }}>{item}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
+
+        <TextInput
+          style={[
+            styles.searchInput,
+            {
+              backgroundColor: themeStyles.inputBackgroundColor,
+              color: themeStyles.color,
+            },
+          ]}
+          placeholder="Buscar tarefas"
+          placeholderTextColor={isDarkMode ? "#aaaaaa" : "#555555"}
+          value={searchQuery}
+          onChangeText={(text) => setSearchQuery(text)}
+        />
+
+        <ScrollView style={styles.items}>
+          {filteredTasks.map((item, index) => (
+            <TouchableOpacity key={index} onPress={() => completeTask(index)}>
+              <View
+                style={[
+                  styles.task,
+                  { backgroundColor: themeStyles.inputBackgroundColor },
+                ]}
+              >
+                <Text style={{ color: themeStyles.color }}>{item}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
+
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.writeTaskWrapper}
@@ -88,7 +110,7 @@ export default function HomeScreen() {
           value={task}
           onChangeText={(text) => setTask(text)}
         />
-        <TouchableOpacity onPress={() => handleAddTask()}>
+        <TouchableOpacity onPress={handleAddTask}>
           <View
             style={[
               styles.addWrapper,
@@ -120,11 +142,19 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "bold",
   },
+  searchInput: {
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 10,
+    marginBottom: 15,
+    fontSize: 16,
+  },
   items: {
-    marginTop: 20,
+    marginTop: 10,
+    flex: 1,
   },
   task: {
     padding: 15,
@@ -138,7 +168,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 30,
     width: "100%",
-    padding: 20,
+    paddingHorizontal: 20,
   },
   input: {
     paddingVertical: 15,
@@ -147,8 +177,8 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   addWrapper: {
-    width: 60,
-    height: 60,
+    width: 50,
+    height: 50,
     borderRadius: 30,
     justifyContent: "center",
     alignItems: "center",

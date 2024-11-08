@@ -1,3 +1,4 @@
+// BoredScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -9,7 +10,7 @@ import {
   Image,
 } from "react-native";
 
-export default function BoredScreen() {
+export default function BoredScreen({ isDarkMode }) {
   const [advice, setAdvice] = useState(null);
   const [loading, setLoading] = useState(false);
   const [catImage, setCatImage] = useState(null);
@@ -58,12 +59,12 @@ export default function BoredScreen() {
         "https://api.thecatapi.com/v1/images/search",
         {
           headers: {
-            "x-api-key": "ylX4blBYT9FaoVd6OhvR", // Substitua pela sua chave de API
+            "x-api-key": "ylX4blBYT9FaoVd6OhvR", // Replace with your API key
           },
         }
       );
       const data = await response.json();
-      setCatImage(data[0].url); // Obtém a URL de uma única imagem
+      setCatImage(data[0].url);
     } catch (error) {
       console.error("Erro ao buscar a imagem do gato:", error);
       Alert.alert(
@@ -75,10 +76,30 @@ export default function BoredScreen() {
     }
   };
 
+  const themeStyles = {
+    backgroundColor: isDarkMode ? "#000000" : "#FFFFFF",
+    textColor: isDarkMode ? "#FFFFFF" : "#333333",
+    adviceBackgroundColor: isDarkMode ? "#333333" : "#f0f0f0",
+    buttonBackgroundColor: isDarkMode ? "#4EA5D9" : "#4EA5D9",
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Estou Entediado</Text>
-      <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: themeStyles.backgroundColor },
+      ]}
+    >
+      <Text style={[styles.text, { color: themeStyles.textColor }]}>
+        Estou Entediado
+      </Text>
+      <TouchableOpacity
+        style={[
+          styles.button,
+          { backgroundColor: themeStyles.buttonBackgroundColor },
+        ]}
+        onPress={handleButtonPress}
+      >
         <Text style={styles.buttonText}>Clique para se Inspirar!</Text>
       </TouchableOpacity>
       {loading ? (
@@ -86,9 +107,20 @@ export default function BoredScreen() {
       ) : (
         <>
           {advice && (
-            <View style={styles.adviceContainer}>
-              <Text style={styles.adviceText}>Conselho do Dia:</Text>
-              <Text style={styles.advice}>{advice}</Text>
+            <View
+              style={[
+                styles.adviceContainer,
+                { backgroundColor: themeStyles.adviceBackgroundColor },
+              ]}
+            >
+              <Text
+                style={[styles.adviceText, { color: themeStyles.textColor }]}
+              >
+                Conselho do Dia:
+              </Text>
+              <Text style={[styles.advice, { color: themeStyles.textColor }]}>
+                {advice}
+              </Text>
             </View>
           )}
           {catImage && (
@@ -105,17 +137,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
     padding: 10,
   },
   text: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#333333",
   },
   button: {
-    backgroundColor: "#4EA5D9",
     paddingVertical: 15,
     paddingHorizontal: 25,
     borderRadius: 10,
@@ -131,7 +160,6 @@ const styles = StyleSheet.create({
   adviceContainer: {
     marginTop: 20,
     padding: 15,
-    backgroundColor: "#f0f0f0",
     borderRadius: 10,
     alignItems: "center",
   },
@@ -139,11 +167,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
-    color: "#333333",
   },
   advice: {
     fontSize: 16,
-    color: "#333333",
     textAlign: "center",
   },
   catImage: {

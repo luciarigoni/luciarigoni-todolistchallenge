@@ -12,33 +12,60 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function AddTaskScreen({ navigation, route }) {
   const [task, setTask] = useState("");
+  const isDarkMode = route.params.isDarkMode; // Access isDarkMode passed via route params
 
   const handleSaveTask = () => {
     if (task.trim()) {
       Keyboard.dismiss();
-      route.params.addTask(task); // Adiciona a tarefa na HomeScreen
-      navigation.goBack(); // Volta para a HomeScreen após salvar a tarefa
+      route.params.addTask(task);
+      navigation.goBack();
     }
   };
 
+  const themeStyles = {
+    backgroundColor: isDarkMode ? "#000000" : "#FFFFFF",
+    color: isDarkMode ? "#FFFFFF" : "#333333",
+    inputBackgroundColor: isDarkMode ? "#333333" : "#f0f0f0",
+    buttonBackgroundColor: isDarkMode ? "#4EA5D9" : "#4EA5D9",
+  };
+
   return (
-    <View style={styles.container}>
-      {/* Botão de voltar */}
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: themeStyles.backgroundColor },
+      ]}
+    >
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
-        <Ionicons name="close" size={40} color="#333" />
+        <Ionicons name="close" size={40} color={themeStyles.color} />
       </TouchableOpacity>
 
-      <Text style={styles.title}>Adicionar Nova Tarefa</Text>
+      <Text style={[styles.title, { color: themeStyles.color }]}>
+        Adicionar Nova Tarefa
+      </Text>
       <TextInput
-        style={styles.input}
+        style={[
+          styles.input,
+          {
+            backgroundColor: themeStyles.inputBackgroundColor,
+            color: themeStyles.color,
+          },
+        ]}
         placeholder="Digite a tarefa"
+        placeholderTextColor={isDarkMode ? "#aaaaaa" : "#555555"}
         value={task}
         onChangeText={(text) => setTask(text)}
       />
-      <TouchableOpacity style={styles.saveButton} onPress={handleSaveTask}>
+      <TouchableOpacity
+        style={[
+          styles.saveButton,
+          { backgroundColor: themeStyles.buttonBackgroundColor },
+        ]}
+        onPress={handleSaveTask}
+      >
         <Ionicons name="checkmark" size={24} color="#FFFFFF" />
         <Text style={styles.saveButtonText}>Salvar Tarefa</Text>
       </TouchableOpacity>
@@ -51,24 +78,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FFFFFF",
     padding: 20,
   },
-  backButton: {
-    position: "absolute",
-    top: 70, // Ajuste conforme necessário
-    left: 20, // Ajuste conforme necessário
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    color: "#333333",
-  },
+  backButton: { position: "absolute", top: 70, left: 20 },
+  title: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
   input: {
     width: "100%",
     padding: 15,
-    backgroundColor: "#f0f0f0",
     borderRadius: 10,
     marginBottom: 20,
     fontSize: 18,
@@ -76,14 +92,9 @@ const styles = StyleSheet.create({
   saveButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#4EA5D9",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 10,
   },
-  saveButtonText: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    marginLeft: 10,
-  },
+  saveButtonText: { color: "#FFFFFF", fontSize: 18, marginLeft: 10 },
 });

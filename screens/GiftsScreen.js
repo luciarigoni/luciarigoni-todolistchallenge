@@ -56,7 +56,6 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
         { backgroundColor: themeStyles.backgroundColor },
       ]}
     >
-      {/* Bolas decorativas de fundo */}
       <View style={[styles.circle, styles.redCircle]} />
       <View style={[styles.circle, styles.greenCircle]} />
       <View style={[styles.circle, styles.redCircleSmaller]} />
@@ -106,7 +105,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
     marginHorizontal: 5,
-    elevation: 3, // Sombra para destacar o produto
+    elevation: 3,
   },
   productImage: {
     width: 130,
@@ -119,7 +118,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  // Estilos das bolas decorativas de fundo
   circle: {
     position: "absolute",
     borderRadius: 100,

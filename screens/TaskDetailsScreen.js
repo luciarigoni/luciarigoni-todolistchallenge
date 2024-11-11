@@ -14,7 +14,7 @@ export default function TaskDetailsScreen({ route, navigation }) {
   const [status, setStatus] = useState(task.status || "Pendente");
   const [details, setDetails] = useState(task.details || "");
   const [comments, setComments] = useState(task.comments || "");
-  const [modalVisible, setModalVisible] = useState(false); // Controle do modal
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleCancel = () => {
     navigation.goBack();
@@ -33,6 +33,12 @@ export default function TaskDetailsScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      {/* Bolas decorativas de fundo */}
+      <View style={[styles.circle, styles.redCircle]} />
+      <View style={[styles.circle, styles.greenCircle]} />
+      <View style={[styles.circle, styles.redCircleSmaller]} />
+      <View style={[styles.circle, styles.greenCircleSmaller]} />
+
       <Text style={styles.title}>Detalhes da Tarefa</Text>
 
       <Text style={styles.label}>Status</Text>
@@ -178,5 +184,39 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     color: "#333333",
+  },
+  // Estilos das bolas decorativas de fundo
+  circle: {
+    position: "absolute",
+    borderRadius: 100,
+    opacity: 0.2,
+  },
+  redCircle: {
+    width: 200,
+    height: 200,
+    backgroundColor: "#FF6347",
+    top: -50,
+    right: -70,
+  },
+  greenCircle: {
+    width: 150,
+    height: 150,
+    backgroundColor: "#32CD32",
+    bottom: -30,
+    left: -60,
+  },
+  redCircleSmaller: {
+    width: 100,
+    height: 100,
+    backgroundColor: "#FF6347",
+    top: 120,
+    left: -40,
+  },
+  greenCircleSmaller: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#32CD32",
+    bottom: 80,
+    right: -40,
   },
 });

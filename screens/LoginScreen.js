@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     height: 50,
-    backgroundColor: "#4d0039", // Cor roxa escura
+    backgroundColor: "#4d0039",
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 300,
     height: 300,
-    backgroundColor: "#ffcce6", // Rosa claro
+    backgroundColor: "#ffcce6",
     borderRadius: 150,
     top: -50,
     left: -50,
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     width: 300,
     height: 300,
-    backgroundColor: "#ffcce6", // Rosa claro
+    backgroundColor: "#ffcce6",
     borderRadius: 150,
     bottom: -100,
     right: -50,

@@ -104,11 +104,11 @@ export default function HomeScreen({
   const getBackgroundColor = (status) => {
     switch (status) {
       case "Pendente":
-        return "#FFD700"; // Amarelo
+        return "#FFD700";
       case "Em andamento":
-        return "#1E90FF"; // Azul
+        return "#1E90FF";
       case "Concluída":
-        return "#32CD32"; // Verde
+        return "#32CD32";
       default:
         return themeStyles.inputBackgroundColor;
     }
@@ -135,7 +135,6 @@ export default function HomeScreen({
         { backgroundColor: themeStyles.backgroundColor },
       ]}
     >
-      {/* Bolas decorativas de fundo */}
       <View style={[styles.circle, styles.redCircle]} />
       <View style={[styles.circle, styles.greenCircle]} />
       <View style={[styles.circle, styles.redCircleSmaller]} />
@@ -325,7 +324,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333333",
   },
-  // Estilos das bolas decorativas de fundo
   circle: {
     position: "absolute",
     borderRadius: 100,

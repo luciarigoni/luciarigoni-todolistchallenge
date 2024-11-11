@@ -17,7 +17,21 @@ https://github.com/user-attachments/assets/791730b7-be31-4885-a043-4ea52cc6856a
 - **Lottie**: Biblioteca para animações, proporcionando uma experiência visual rica ao usuário.
 - **React Navigation**: Utilizado para navegação entre telas do aplicativo.
 - **Dark Mode**: Tema escuro configurável para melhor experiência do usuário.
-- **API**: Integração com a API "Dummy JSON" para sugerir produtos que podem ser adicionados à lista de tarefas, com a API "Cats" para obter imagens de gatos, e com a API "Advice Slip" para obter conselhos aleatórios. 
+- **API**: Integração com várias APIs para fornecer dados e funcionalidades adicionais:
+
+Dummy JSON API
+
+- Uso para Autenticação: A API Dummy JSON foi usada para implementar uma autenticação básica (fake login). Um usuário pode fazer login utilizando o nome de usuário e senha fornecidos pela API.
+- Uso para Sugestões de Produtos: A API Dummy JSON também fornece dados de produtos para sugerir itens que podem ser adicionados à lista de tarefas.
+
+Cats API
+
+- Imagens de Gatos: Integração com a Cats API para obter imagens aleatórias de gatos, trazendo um toque de diversão e surpresa ao aplicativo.
+
+Advice Slip API
+
+- Conselhos Aleatórios: Integração com a Advice Slip API para exibir conselhos aleatórios, adicionando uma experiência inspiradora ao usuário.
+
 
 ## Funcionalidades
 

@@ -7,7 +7,6 @@ import {
   Image,
   StyleSheet,
   ActivityIndicator,
-  Alert,
 } from "react-native";
 
 export default function GiftsScreen({ addTask, isDarkMode }) {
@@ -57,11 +56,17 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
         { backgroundColor: themeStyles.backgroundColor },
       ]}
     >
+      {/* Bolas decorativas de fundo */}
+      <View style={[styles.circle, styles.redCircle]} />
+      <View style={[styles.circle, styles.greenCircle]} />
+      <View style={[styles.circle, styles.redCircleSmaller]} />
+      <View style={[styles.circle, styles.greenCircleSmaller]} />
+
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}
-        numColumns={2} // Define duas colunas na lista
-        key={"two-columns"} // Força uma nova renderização com a chave fixa
+        numColumns={2}
+        columnWrapperStyle={styles.columnWrapper}
         renderItem={({ item }) => (
           <View
             style={[
@@ -80,7 +85,6 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
             </Text>
           </View>
         )}
-        columnWrapperStyle={styles.columnWrapper} // Estilo para espaçamento entre as colunas
       />
     </SafeAreaView>
   );
@@ -89,6 +93,7 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
+    paddingTop: 20,
   },
   columnWrapper: {
     justifyContent: "space-between",
@@ -101,16 +106,51 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
     marginHorizontal: 5,
+    elevation: 3, // Sombra para destacar o produto
   },
   productImage: {
-    width: 150,
-    height: 150,
+    width: 130,
+    height: 130,
     borderRadius: 10,
   },
   productName: {
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  // Estilos das bolas decorativas de fundo
+  circle: {
+    position: "absolute",
+    borderRadius: 100,
+    opacity: 0.2,
+  },
+  redCircle: {
+    width: 200,
+    height: 200,
+    backgroundColor: "#FF6347",
+    top: -50,
+    right: -70,
+  },
+  greenCircle: {
+    width: 150,
+    height: 150,
+    backgroundColor: "#32CD32",
+    bottom: -30,
+    left: -60,
+  },
+  redCircleSmaller: {
+    width: 100,
+    height: 100,
+    backgroundColor: "#FF6347",
+    top: 120,
+    left: -40,
+  },
+  greenCircleSmaller: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#32CD32",
+    bottom: 80,
+    right: -40,
   },
 });

@@ -89,7 +89,6 @@ export default function BoredScreen({ isDarkMode }) {
         { backgroundColor: themeStyles.backgroundColor },
       ]}
     >
-      {/* Bolas decorativas de fundo */}
       <View style={[styles.circle, styles.redCircle]} />
       <View style={[styles.circle, styles.greenCircle]} />
       <View style={[styles.circle, styles.redCircleSmaller]} />
@@ -189,7 +188,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     resizeMode: "cover",
   },
-  // Estilos das bolas decorativas de fundo
   circle: {
     position: "absolute",
     borderRadius: 100,

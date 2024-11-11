@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   icon: {
     marginRight: 5,
   },
-  // Estilos das bolas decorativas de fundo
+
   circle: {
     position: "absolute",
     borderRadius: 100,

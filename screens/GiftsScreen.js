@@ -5,7 +5,6 @@ import {
   Text,
   FlatList,
   Image,
-  TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
   Alert,
@@ -30,11 +29,6 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
 
     fetchProducts();
   }, []);
-
-  const handleAddProduct = (productName) => {
-    addTask(productName);
-    Alert.alert("Sucesso", `${productName} foi adicionado na sua lista!`);
-  };
 
   const themeStyles = {
     backgroundColor: isDarkMode ? "#000000" : "#FFFFFF",
@@ -66,6 +60,8 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
       <FlatList
         data={products}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={2} // Define duas colunas na lista
+        key={"two-columns"} // Força uma nova renderização com a chave fixa
         renderItem={({ item }) => (
           <View
             style={[
@@ -82,24 +78,9 @@ export default function GiftsScreen({ addTask, isDarkMode }) {
             >
               {item.title}
             </Text>
-            <TouchableOpacity
-              style={[
-                styles.addButton,
-                {
-                  backgroundColor: themeStyles.buttonBackgroundColor,
-                  borderColor: themeStyles.buttonBorderColor,
-                },
-              ]}
-              onPress={() => handleAddProduct(item.title)}
-            >
-              <Text
-                style={[styles.addButtonText, { color: themeStyles.textColor }]}
-              >
-                Adicionar
-              </Text>
-            </TouchableOpacity>
           </View>
         )}
+        columnWrapperStyle={styles.columnWrapper} // Estilo para espaçamento entre as colunas
       />
     </SafeAreaView>
   );
@@ -109,14 +90,9 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+  columnWrapper: {
+    justifyContent: "space-between",
+    paddingHorizontal: 10,
   },
   productContainer: {
     flex: 1,
@@ -124,6 +100,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginBottom: 15,
+    marginHorizontal: 5,
   },
   productImage: {
     width: 150,
@@ -135,15 +112,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-  },
-  addButton: {
-    marginTop: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 25,
-    borderRadius: 8,
-    borderWidth: 2,
-  },
-  addButtonText: {
-    fontWeight: "bold",
   },
 });

@@ -5,6 +5,7 @@ import HomeTabs from "./HomeTabs";
 import AddTaskScreen from "../screens/AddTaskScreen";
 import GiftsScreen from "../screens/GiftsScreen";
 import LoginScreen from "../screens/LoginScreen";
+import TaskDetailsScreen from "../screens/TaskDetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ export default function AppNavigator() {
       <Stack.Screen name="HomeTabs" component={HomeTabs} />
       <Stack.Screen name="AddTask" component={AddTaskScreen} />
       <Stack.Screen name="Gifts" component={GiftsScreen} />
+      <Stack.Screen name="TaskDetails" component={TaskDetailsScreen} />
     </Stack.Navigator>
   );
 }

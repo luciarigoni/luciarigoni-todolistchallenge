@@ -9,19 +9,24 @@ import {
   Switch,
   StyleSheet,
   ScrollView,
+  Alert,
+  Modal,
 } from "react-native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Swipeable } from "react-native-gesture-handler";
+import { useFocusEffect } from "@react-navigation/native"; // Importação necessária para o callback ao voltar
 
 export default function HomeScreen({
   navigation,
   taskItems,
-  addTask,
   setTaskItems,
   isDarkMode,
   toggleTheme,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [filter, setFilter] = useState("Todos"); // Estado do filtro selecionado
+  const [modalVisible, setModalVisible] = useState(false); // Controle do modal
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -50,21 +55,79 @@ export default function HomeScreen({
     saveTasks();
   }, [taskItems]);
 
-  const completeTask = (index) => {
+  const deleteTask = (index) => {
     let itemsCopy = [...taskItems];
     itemsCopy.splice(index, 1);
     setTaskItems(itemsCopy);
   };
 
-  const filteredTasks = taskItems.filter((item) =>
-    item.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const updateTask = (index, updatedTask) => {
+    let itemsCopy = [...taskItems];
+    itemsCopy[index] = updatedTask;
+    setTaskItems(itemsCopy);
+  };
+
+  const openTaskDetails = (task, index) => {
+    navigation.navigate("TaskDetails", { task, index, updateTask });
+  };
+
+  const handleFilterChange = (status) => {
+    setFilter(status);
+    setModalVisible(false);
+  };
+
+  const filteredTasks = taskItems.filter((item) => {
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesFilter = filter === "Todos" || item.status === filter;
+    return matchesSearch && matchesFilter;
+  });
 
   const themeStyles = {
     backgroundColor: isDarkMode ? "#000000" : "#FFFFFF",
     color: isDarkMode ? "#FFFFFF" : "#000000",
     inputBackgroundColor: isDarkMode ? "#333333" : "#f0f0f0",
   };
+
+  const renderRightActions = (index) => {
+    return (
+      <TouchableOpacity
+        onPress={() => deleteTask(index)}
+        style={styles.deleteButton}
+      >
+        <Text style={styles.deleteButtonText}>Excluir</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const getBackgroundColor = (status) => {
+    switch (status) {
+      case "Pendente":
+        return "#FFD700"; // Amarelo
+      case "Em andamento":
+        return "#1E90FF"; // Azul
+      case "Concluída":
+        return "#32CD32"; // Verde
+      default:
+        return themeStyles.inputBackgroundColor;
+    }
+  };
+
+  // Callback que é chamado ao voltar para a tela HomeScreen
+  useFocusEffect(
+    React.useCallback(() => {
+      const handleNewTask = async () => {
+        const newTask = await AsyncStorage.getItem("newTask");
+        if (newTask) {
+          const parsedTask = JSON.parse(newTask);
+          setTaskItems([...taskItems, parsedTask]);
+          await AsyncStorage.removeItem("newTask"); // Remove a tarefa para evitar duplicatas
+        }
+      };
+      handleNewTask();
+    }, [taskItems])
+  );
 
   return (
     <View
@@ -89,24 +152,60 @@ export default function HomeScreen({
               color: themeStyles.color,
             },
           ]}
-          placeholder="Buscar tarefas ou presentes"
+          placeholder="Buscar tarefas"
           placeholderTextColor={isDarkMode ? "#aaaaaa" : "#555555"}
           value={searchQuery}
           onChangeText={(text) => setSearchQuery(text)}
         />
 
+        <TouchableOpacity
+          style={styles.filterButton}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={[styles.filterButtonText, { color: themeStyles.color }]}>
+            Filtrar: {filter}
+          </Text>
+        </TouchableOpacity>
+
+        <Modal
+          visible={modalVisible}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              {["Todos", "Pendente", "Em andamento", "Concluída"].map(
+                (status) => (
+                  <TouchableOpacity
+                    key={status}
+                    onPress={() => handleFilterChange(status)}
+                  >
+                    <Text style={styles.modalOption}>{status}</Text>
+                  </TouchableOpacity>
+                )
+              )}
+            </View>
+          </View>
+        </Modal>
+
         <ScrollView style={styles.items}>
           {filteredTasks.map((item, index) => (
-            <TouchableOpacity key={index} onPress={() => completeTask(index)}>
-              <View
-                style={[
-                  styles.task,
-                  { backgroundColor: themeStyles.inputBackgroundColor },
-                ]}
-              >
-                <Text style={{ color: themeStyles.color }}>{item}</Text>
-              </View>
-            </TouchableOpacity>
+            <Swipeable
+              key={index}
+              renderRightActions={() => renderRightActions(index)}
+            >
+              <TouchableOpacity onPress={() => openTaskDetails(item, index)}>
+                <View
+                  style={[
+                    styles.task,
+                    { backgroundColor: getBackgroundColor(item.status) },
+                  ]}
+                >
+                  <Text style={{ color: themeStyles.color }}>{item.name}</Text>
+                </View>
+              </TouchableOpacity>
+            </Swipeable>
           ))}
         </ScrollView>
       </View>
@@ -116,10 +215,8 @@ export default function HomeScreen({
         style={styles.writeTaskWrapper}
       >
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("AddTask", { addTask, isDarkMode })
-          }
-          style={styles.addButtonPosition} // Alinha o botão à direita
+          onPress={() => navigation.navigate("AddTask", { isDarkMode })}
+          style={styles.addButtonPosition}
         >
           <View style={styles.addWrapper}>
             <Ionicons name="add" size={24} color={themeStyles.color} />
@@ -129,7 +226,6 @@ export default function HomeScreen({
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -157,6 +253,16 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     fontSize: 16,
   },
+  filterButton: {
+    alignItems: "center",
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  filterButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   items: {
     marginTop: 10,
     flex: 1,
@@ -182,5 +288,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#92DCE5",
+  },
+  deleteButton: {
+    backgroundColor: "#ff5252",
+    justifyContent: "center",
+    alignItems: "center",
+    width: 80,
+    height: "80%",
+    borderRadius: 5,
+  },
+  deleteButtonText: {
+    color: "#ffffff",
+    fontWeight: "bold",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: 300,
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalOption: {
+    padding: 10,
+    fontSize: 16,
+    color: "#333333",
   },
 });

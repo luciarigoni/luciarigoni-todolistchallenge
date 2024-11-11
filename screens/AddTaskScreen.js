@@ -1,4 +1,3 @@
-// AddTaskScreen.js
 import React, { useState } from "react";
 import {
   View,
@@ -12,7 +11,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function AddTaskScreen({ navigation, route }) {
   const [task, setTask] = useState("");
-  const isDarkMode = route.params.isDarkMode; // Access isDarkMode passed via route params
+  const isDarkMode = route.params.isDarkMode;
 
   const handleSaveTask = () => {
     if (task.trim()) {

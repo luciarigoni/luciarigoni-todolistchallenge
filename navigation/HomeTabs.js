@@ -1,4 +1,3 @@
-// HomeTabs.js
 import React, { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -12,12 +11,10 @@ export default function HomeTabs() {
   const [taskItems, setTaskItems] = useState([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Function to add tasks
   const addTask = (task) => {
     setTaskItems([...taskItems, task]);
   };
 
-  // Function to toggle dark mode
   const toggleTheme = () => {
     setIsDarkMode((prevMode) => !prevMode);
   };

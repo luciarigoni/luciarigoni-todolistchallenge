@@ -89,9 +89,16 @@ export default function BoredScreen({ isDarkMode }) {
         { backgroundColor: themeStyles.backgroundColor },
       ]}
     >
+      {/* Bolas decorativas de fundo */}
+      <View style={[styles.circle, styles.redCircle]} />
+      <View style={[styles.circle, styles.greenCircle]} />
+      <View style={[styles.circle, styles.redCircleSmaller]} />
+      <View style={[styles.circle, styles.greenCircleSmaller]} />
+
       <Text style={[styles.text, { color: themeStyles.textColor }]}>
         Estou Entediado
       </Text>
+
       <TouchableOpacity
         style={[
           styles.button,
@@ -101,6 +108,7 @@ export default function BoredScreen({ isDarkMode }) {
       >
         <Text style={styles.buttonText}>Clique para se Inspirar!</Text>
       </TouchableOpacity>
+
       {loading ? (
         <ActivityIndicator size="large" color="#4EA5D9" style={styles.loader} />
       ) : (
@@ -136,17 +144,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+    padding: 20,
   },
   text: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
+    textAlign: "center",
   },
   button: {
     paddingVertical: 15,
     paddingHorizontal: 25,
     borderRadius: 10,
+    elevation: 3,
   },
   buttonText: {
     color: "#FFFFFF",
@@ -161,6 +171,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
+    elevation: 3,
   },
   adviceText: {
     fontSize: 18,
@@ -172,9 +183,44 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   catImage: {
-    width: 300,
-    height: 300,
+    width: 250,
+    height: 250,
     borderRadius: 10,
     marginTop: 20,
+    resizeMode: "cover",
+  },
+  // Estilos das bolas decorativas de fundo
+  circle: {
+    position: "absolute",
+    borderRadius: 100,
+    opacity: 0.2,
+  },
+  redCircle: {
+    width: 200,
+    height: 200,
+    backgroundColor: "#FF6347",
+    top: -50,
+    right: -70,
+  },
+  greenCircle: {
+    width: 150,
+    height: 150,
+    backgroundColor: "#32CD32",
+    bottom: -30,
+    left: -60,
+  },
+  redCircleSmaller: {
+    width: 100,
+    height: 100,
+    backgroundColor: "#FF6347",
+    top: 120,
+    left: -40,
+  },
+  greenCircleSmaller: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#32CD32",
+    bottom: 80,
+    right: -40,
   },
 });

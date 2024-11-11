@@ -15,7 +15,7 @@ import {
 import Ionicons from "react-native-vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Swipeable } from "react-native-gesture-handler";
-import { useFocusEffect } from "@react-navigation/native"; // Importação necessária para o callback ao voltar
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function HomeScreen({
   navigation,
@@ -25,8 +25,8 @@ export default function HomeScreen({
   toggleTheme,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filter, setFilter] = useState("Todos"); // Estado do filtro selecionado
-  const [modalVisible, setModalVisible] = useState(false); // Controle do modal
+  const [filter, setFilter] = useState("Todos");
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -114,7 +114,6 @@ export default function HomeScreen({
     }
   };
 
-  // Callback que é chamado ao voltar para a tela HomeScreen
   useFocusEffect(
     React.useCallback(() => {
       const handleNewTask = async () => {
@@ -122,7 +121,7 @@ export default function HomeScreen({
         if (newTask) {
           const parsedTask = JSON.parse(newTask);
           setTaskItems([...taskItems, parsedTask]);
-          await AsyncStorage.removeItem("newTask"); // Remove a tarefa para evitar duplicatas
+          await AsyncStorage.removeItem("newTask");
         }
       };
       handleNewTask();
@@ -136,6 +135,12 @@ export default function HomeScreen({
         { backgroundColor: themeStyles.backgroundColor },
       ]}
     >
+      {/* Bolas decorativas de fundo */}
+      <View style={[styles.circle, styles.redCircle]} />
+      <View style={[styles.circle, styles.greenCircle]} />
+      <View style={[styles.circle, styles.redCircleSmaller]} />
+      <View style={[styles.circle, styles.greenCircleSmaller]} />
+
       <View style={styles.tasksWrapper}>
         <View style={styles.header}>
           <Text style={[styles.sectionTitle, { color: themeStyles.color }]}>
@@ -226,6 +231,7 @@ export default function HomeScreen({
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -318,5 +324,39 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     color: "#333333",
+  },
+  // Estilos das bolas decorativas de fundo
+  circle: {
+    position: "absolute",
+    borderRadius: 100,
+    opacity: 0.3,
+  },
+  redCircle: {
+    width: 200,
+    height: 200,
+    backgroundColor: "#FF6347",
+    top: -50,
+    right: -70,
+  },
+  greenCircle: {
+    width: 150,
+    height: 150,
+    backgroundColor: "#32CD32",
+    bottom: -30,
+    left: -60,
+  },
+  redCircleSmaller: {
+    width: 100,
+    height: 100,
+    backgroundColor: "#FF6347",
+    top: 120,
+    left: -40,
+  },
+  greenCircleSmaller: {
+    width: 120,
+    height: 120,
+    backgroundColor: "#32CD32",
+    bottom: 80,
+    right: -40,
   },
 });

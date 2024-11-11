@@ -9,8 +9,8 @@ import onboarding3 from "../assets/animations/onboarding3.json";
 export default function OnboardingScreen({ navigation }) {
   return (
     <Onboarding
-      onSkip={() => navigation.replace("HomeTabs")}
-      onDone={() => navigation.replace("HomeTabs")}
+      onSkip={() => navigation.replace("Login")}
+      onDone={() => navigation.replace("Login")}
       pages={[
         {
           backgroundColor: "#FF90B3",

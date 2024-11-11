@@ -7,17 +7,24 @@ import {
   StyleSheet,
   Keyboard,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage"; // Importe o AsyncStorage
 import Ionicons from "react-native-vector-icons/Ionicons";
 
 export default function AddTaskScreen({ navigation, route }) {
   const [task, setTask] = useState("");
   const isDarkMode = route.params.isDarkMode;
 
-  const handleSaveTask = () => {
+  const handleSaveTask = async () => {
     if (task.trim()) {
       Keyboard.dismiss();
-      route.params.addTask(task);
-      navigation.goBack();
+      const newTask = {
+        name: task,
+        status: "Pendente",
+        details: "",
+        comments: "",
+      };
+      await AsyncStorage.setItem("newTask", JSON.stringify(newTask)); // Salva a nova tarefa
+      navigation.goBack(); // Retorna à HomeScreen
     }
   };
 
